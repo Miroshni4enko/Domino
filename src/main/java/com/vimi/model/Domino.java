@@ -60,8 +60,13 @@ public class Domino implements Cloneable {
     }
     
     @Override
-    public Domino clone() throws CloneNotSupportedException {
-        return (Domino) super.clone();
+    public Domino clone()  {
+        try {
+            return (Domino) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
     
 }

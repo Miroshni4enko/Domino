@@ -24,7 +24,7 @@ public class Chain extends LinkedBlockingDeque<Domino> {
         return getLast().getSecondSide();
     }
 
-    public boolean addToChain(Domino domino) {
+    public  boolean addToChain(Domino domino) {
         if (domino.getFirstSide() == getSecondSideOfChain()) {
             return add(domino);
         } else if (domino.getSecondSide() == getFirstSideOfChain()) {

@@ -4,48 +4,46 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by vymi1016 on 10/22/2017.
  */
-public class GenerateChain extends RecursiveTask<Void> {
-    private List<Domino> dominoesPool;
+public class GenerateChain extends RecursiveTask<Chain> {
+    private LinkedBlockingDeque<Domino> dominoesPool;
     private Chain resultChain;
     private LinkedBlockingDeque<Chain> resultChains;
-    
-    public GenerateChain (LinkedList<Domino> dominoesPool, Chain resultChain, LinkedBlockingDeque<Chain> resultChains) {
+
+    public GenerateChain(LinkedBlockingDeque<Domino> dominoesPool, Chain resultChain, LinkedBlockingDeque<Chain> resultChains) {
         this.dominoesPool = dominoesPool;
         this.resultChain = resultChain;
         this.resultChains = resultChains;
     }
-    @Override
-    protected Void compute() {
-        List<GenerateChain> subTasks = new LinkedList<>();
-        Chain resultChainWithPassedDomino;
-        for (Domino domino : dominoesPool) {
 
-            try {
-                if (resultChain.addToChain(domino.clone())) {
-                    LinkedList<Domino> dominoesPoolWithOutCurrent = new LinkedList<>(dominoesPool);
-                    dominoesPoolWithOutCurrent.remove(domino);
-                    if (!isRepeatedChain(resultChains, resultChain)) {
-                        resultChainWithPassedDomino = new Chain(resultChain);
-                        resultChains.add(resultChainWithPassedDomino);
-                    }
-                    GenerateChain task = new GenerateChain(dominoesPoolWithOutCurrent, resultChain, resultChains);
-                    task.fork();
-                    subTasks.add(task);
-                    //generateChains(dominoesPoolWithOutCurrent, resultChain, resultChains);
-                    resultChain.remove(domino);
-                }
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
+    @Override
+    protected Chain compute() {
+        List<GenerateChain> subTasks = new LinkedList<>();
+        for (Domino domino : dominoesPool) {
+            if (resultChain.addToChain(domino.clone())) {
+                LinkedBlockingDeque<Domino> dominoesPoolWithOutCurrent = new LinkedBlockingDeque<>(dominoesPool);
+                dominoesPoolWithOutCurrent.remove(domino);
+                GenerateChain task = new GenerateChain(dominoesPoolWithOutCurrent, new Chain(resultChain), resultChains);
+                task.fork();
+                subTasks.add(task);
+                resultChain.remove(domino);
+                //generateChains(dominoesPoolWithOutCurrent, resultChain, resultChains);
             }
         }
-        for(GenerateChain task : subTasks) {
-            task.join(); // дождёмся выполнения задачи и прибавим результат 
+        for (GenerateChain task : subTasks) {
+            Chain newChain = task.join();
+            ReentrantLock rentad = new ReentrantLock();
+            rentad.lock();
+            if (!isRepeatedChain(resultChains, newChain)) {
+                resultChains.add(new Chain(newChain));
+            }
+            rentad.unlock();
         }
-        return null;
+        return resultChain;
     }
 
     public boolean isRepeatedChain(LinkedBlockingDeque<Chain> childChains, Chain parentChain) {
