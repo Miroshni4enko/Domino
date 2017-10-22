@@ -15,7 +15,7 @@ public class DBConnectionTest {
 
         //using try-with-resources to avoid closing resources (boiler plate code)
 
-        try(Connection con = DBConnection.getDBConnection();
+        try(Connection con = DBConnection.getDBConnection().getConnection();
             Statement stmt = con.createStatement();) {
             stmt.executeUpdate(sql);
         } catch (SQLException e) {

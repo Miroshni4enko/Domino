@@ -3,9 +3,7 @@ package com.vimi.db;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 /**
@@ -26,8 +24,8 @@ public class DBConnection {
     protected static class Singleton {
         public static final DBConnection _INSTANCE = new DBConnection();
     }
-    public static Connection getDBConnection() {
-        return DBConnection.Singleton._INSTANCE.getConnection();
+    public static DBConnection getDBConnection() {
+        return DBConnection.Singleton._INSTANCE;
     }
     
     public void loadProp() {
@@ -50,5 +48,18 @@ public class DBConnection {
             e.printStackTrace();
         }
         return con;
+    }
+
+    private void disconnect(Connection connection, ResultSet result, Statement statement) {
+        try {
+            if(statement != null)
+                statement.close();
+            if(connection != null)
+                connection.close();
+            if(result != null)
+                result.close();
+        } catch (SQLException e) {
+            //LOG.error(e);
+        }
     }
 }
