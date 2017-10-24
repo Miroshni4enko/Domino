@@ -1,12 +1,10 @@
-<head>
-    <meta charset="UTF-8">
-    <title>Domino</title>
-</head>
+<html>
 <body>
 <header>
         <a href="index.jsp">Main</a>
         <a href="GetChain.jsp">Get chain</a>
         <a href="GenerateSets.jsp">Generate sets</a>
 </header>
-<h1>Welcome!</h1>
+<h2>Hello World!</h2>
 </body>
+</html>

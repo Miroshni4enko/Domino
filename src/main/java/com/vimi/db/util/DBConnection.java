@@ -1,4 +1,4 @@
-package com.vimi.db;
+package com.vimi.db.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -43,14 +43,14 @@ public class DBConnection {
             con = DriverManager.getConnection(props.getProperty(DB_URL),
                     props.getProperty(DB_USERNAME),
                     props.getProperty(DB_PASSWORD));
-        } catch ( ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return con;
     }
 
-    private void disconnect(Connection connection, ResultSet result, Statement statement) {
+    public void disconnect(Connection connection, ResultSet result, Statement statement) {
         try {
             if(statement != null)
                 statement.close();
@@ -59,7 +59,7 @@ public class DBConnection {
             if(result != null)
                 result.close();
         } catch (SQLException e) {
-            //LOG.error(e);
+          //  LOG.error(e);
         }
     }
 }

@@ -1,9 +1,8 @@
 package com.vimi.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by vymi1016 on 10/18/2017.
@@ -14,8 +13,8 @@ public class SolveDominoes{
     
     public static void main(String[] args) throws CloneNotSupportedException {
         // [(1|4), (2|6), (4|5), (1|5), (3|5)]
-
-        LinkedBlockingDeque<Chain> demoForDraw;
+        SolveDominoes solveDominoes = new SolveDominoes();
+        List<Chain> demoForDraw = null;
         long start = System.currentTimeMillis();
         List<Domino> pool = new LinkedList<>();
         pool.add(new Domino(2,6));
@@ -28,15 +27,22 @@ public class SolveDominoes{
         pool.add(new Domino(1,3));
         pool.add(new Domino(0,2));
         pool.add(new Domino(4,5));
-        pool.add(new Domino(1,4));
-        pool.add(new Domino(0,0));
+        pool.add(new Domino(1,4));/*
+        pool.add(new Domino(0,0));*/
         // new DominoPool().getDominoesWithFixedSize(5);
         System.out.println(pool);
-        demoForDraw = generateChains(pool);
+       /* for(int i = 0; i < 1000; i++) {
+            demoForDraw = solveDominoes.generateChains(pool);
+            if(demoForDraw.size()!=16) {
+                System.out.println(demoForDraw.size());
+            }
+        }*/
+      
+        demoForDraw = solveDominoes.generateChains(pool);
         
-        //System.out.println(drawChains(demoForDraw));
+      System.out.println(drawChains(demoForDraw));
+      System.out.println(demoForDraw.size());
         
-        System.out.println(demoForDraw.size());
             
         
         /*System.out.println(hasChain(dominoes, 5, 5));   // true
@@ -48,51 +54,24 @@ public class SolveDominoes{
         System.out.println(finish - start);
     }
 
-  
 
-    /* public static boolean hasChain(List<Domino> dominoes,
-                                    int start, int end) {
-         if (start == end) {
-             return true;                         // base case
-         } else {
-             for (int i = 0; i < dominoes.size(); i++) {
-                 Domino d = dominoes.remove(i);   // choose
-                 if (d.getFirstSide() == start) {        // explore
-                     if (hasChain(dominoes, d.getSecondSide(), end)) {
-                         return true;
-                     }
-                 } else if (d.getSecondSide() == start) {
-                     if (hasChain(dominoes, d.getFirstSide(), end)) {
-                         return true;
-                     }
-                 }
-                 dominoes.add(i, d);              // un-choose
-             }
-             return false;
-         }
-     }
- */
 
-    public static LinkedBlockingDeque<Chain> generateChains(List<Domino> dominoesPool) throws CloneNotSupportedException {
-        LinkedBlockingDeque<Chain> resultChains = new LinkedBlockingDeque<>();
-        Chain resultChain;
-        ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+    public List<Chain> generateChains(List<Domino> dominoesPool) throws CloneNotSupportedException {
+        List<Chain> resultChains = new ArrayList<>();
+        Chain resultChain = new Chain();
         for (Domino domino : dominoesPool) {
-            resultChain = new Chain();
             resultChain.add(domino);
-            LinkedBlockingDeque<Domino> dominoesPoolWithOutCurrent = new LinkedBlockingDeque<>(dominoesPool);
+            List<Domino> dominoesPoolWithOutCurrent = new LinkedList<>(dominoesPool);
             dominoesPoolWithOutCurrent.remove(domino);
-            forkJoinPool.invoke(new GenerateChain(dominoesPoolWithOutCurrent, resultChain, resultChains));
-            //generateChains(dominoesPoolWithOutCurrent, resultChain, resultChains);
+            generateChains(dominoesPoolWithOutCurrent, resultChain, resultChains);
+            resultChain.remove(domino);
         }
         return resultChains;
 
     }
 
-/*    public static void generateChains(LinkedList<Domino> dominoesPool, Chain resultChain, List<Chain> resultChains) throws CloneNotSupportedException {
-        Chain resultChainWithPassedDomino;
+    public void generateChains(List<Domino> dominoesPool, Chain resultChain, List<Chain> resultChains) throws CloneNotSupportedException {
         for (Domino domino : dominoesPool) {
-
             if (resultChain.addToChain(domino.clone())) {
                 LinkedList<Domino> dominoesPoolWithOutCurrent = new LinkedList<>(dominoesPool);
                 dominoesPoolWithOutCurrent.remove(domino);
@@ -100,16 +79,26 @@ public class SolveDominoes{
                 generateChains(dominoesPoolWithOutCurrent, resultChain, resultChains);
 
                 if (!isRepeatedChain(resultChains, resultChain)) {
-                    resultChainWithPassedDomino = new Chain(resultChain);
-                    resultChains.add(resultChainWithPassedDomino);
+                    resultChains.add(new Chain(resultChain));
                 }
                 resultChain.remove(domino);
             }
         }
-    }*/
+    }
+    public boolean isRepeatedChain(List<Chain> childChains, Chain parentChain) {
+        if (childChains.size() == 0) {
+            return false;
+        }
+        for (Chain childChain : childChains) {
+            if (childChain.containsAllDominoesInRightOrder(parentChain)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     
-    public static String drawChains(LinkedBlockingDeque<Chain> chains){
+    public static String drawChains(List<Chain> chains){
         StringBuilder builder = new StringBuilder();
         for (Chain childChain : chains) {
             builder.append(childChain.drawChain());
