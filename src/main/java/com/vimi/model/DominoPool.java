@@ -9,7 +9,7 @@ import java.util.Random;
  * Created by vymi1016 on 10/22/2017.
  */
 public class DominoPool {
-    List<Domino>  dominoes;
+   static private List<Domino>  dominoes;
     {
         dominoes = new LinkedList<>();
         dominoes.add(new Domino(0, 0));
@@ -42,12 +42,12 @@ public class DominoPool {
         dominoes.add(new Domino(6, 6));
     }
     
-    public List<Domino> getDominoesWithRandomSize(){
+    public static List<Domino> getDominoesWithRandomSize(){
         Collections.shuffle(dominoes);
-        return dominoes.subList(0,new Random().nextInt(dominoes.size()));
+        return dominoes.subList(0,new Random().nextInt(12));   //dominoes.size()
     }
     
-    public List<Domino> getDominoesWithFixedSize(int size){
+    public static List<Domino> getDominoesWithFixedSize(int size){
         Collections.shuffle(dominoes);
         return dominoes.subList(0,size-1);
     }

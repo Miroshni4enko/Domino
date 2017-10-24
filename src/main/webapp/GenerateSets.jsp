@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <body>
 <header>
@@ -5,6 +6,5 @@
         <a href="GetChain.jsp">Get chain</a>
         <a href="GenerateSets.jsp">Generate sets</a>
 </header>
-<h2>Hello World!</h2>
 </body>
 </html>

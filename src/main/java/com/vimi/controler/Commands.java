@@ -1,6 +1,8 @@
 package com.vimi.controler;
 
 
+import com.vimi.controler.processor.GenerateSets;
+import com.vimi.controler.processor.GetChain;
 import com.vimi.controler.processor.Welcome;
 import org.apache.log4j.Logger;
 
@@ -16,11 +18,16 @@ import java.util.Map;
  *
  */
 public class Commands {
-    private static final Logger LOG = Logger.getLogger(Commands.class);
-    private Map<String, Object> map;
+    public static final String ACTION_WELCOME = "welcome";
+    public static final String GET_CHAIN = "getChainFromPool";
+    public static final String GENERATE_SETS = "generateSets";
 
+    private static final Logger LOG = Logger.getLogger(Commands.class);
+
+    private Map<String, Object> map;
     protected static class Singleton {
         public static final Commands _INSTANCE = new Commands();
+
     }
 
     private Commands() {
@@ -36,8 +43,10 @@ public class Commands {
     }
 
     private void initMap() {
-        map = new HashMap<String, Object>();
+        map = new HashMap<>();
         map.put(ACTION_WELCOME, new Welcome());
+        map.put(GET_CHAIN, new GetChain());
+        map.put(GENERATE_SETS, new GenerateSets());
     }
 
     public static void forward(String url, HttpServletRequest request, HttpServletResponse response) {
@@ -50,6 +59,4 @@ public class Commands {
             LOG.error(e);
         }
     }
-
-    public static final String ACTION_WELCOME          = "welcome";
 }
