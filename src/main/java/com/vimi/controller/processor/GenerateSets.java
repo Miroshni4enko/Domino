@@ -7,7 +7,7 @@ import com.vimi.db.util.DataAccessService;
 import com.vimi.exception.DataBaseException;
 import com.vimi.model.Chain;
 import com.vimi.model.Domino;
-import com.vimi.model.SolveDominoes;
+import com.vimi.model.MenegerDomino;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,14 +30,14 @@ public class GenerateSets implements GeneralProcess {
         if (holderForDominoList != null) {
             List<Domino> dominoList = (List<Domino>) holderForDominoList;
             if (getAllSets == null) {
-                sets = Collections.singletonList(Collections.max(SolveDominoes.generateChains(dominoList), new Comparator<Chain>() {
+                sets = Collections.singletonList(Collections.max(MenegerDomino.generateChains(dominoList), new Comparator<Chain>() {
                     @Override
                     public int compare(Chain o1, Chain o2) {
                         return o1.size() > o2.size() ? 1 : 0;
                     }
                 }));
             } else {
-                sets = SolveDominoes.generateChains(dominoList);
+                sets = MenegerDomino.generateChains(dominoList);
            }
             DataAccessService dataAccessService = DataAccessService.getInstance();
             Date date = new Date();
