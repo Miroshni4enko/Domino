@@ -11,7 +11,7 @@ public class SolveDominoes{
     
    
     
-    public static void main(String[] args) throws CloneNotSupportedException {
+    public static void main(String[] args)  {
         // [(1|4), (2|6), (4|5), (1|5), (3|5)]
         SolveDominoes solveDominoes = new SolveDominoes();
         List<Chain> demoForDraw = null;
@@ -38,7 +38,7 @@ public class SolveDominoes{
             }
         }*/
       
-        demoForDraw = solveDominoes.generateChains(pool);
+       // demoForDraw = solveDominoes.generateChains(pool);
         
       System.out.println(drawChains(demoForDraw));
       System.out.println(demoForDraw.size());
@@ -56,7 +56,7 @@ public class SolveDominoes{
 
 
 
-    public List<Chain> generateChains(List<Domino> dominoesPool) throws CloneNotSupportedException {
+    public static List<Chain> generateChains(List<Domino> dominoesPool) {
         List<Chain> resultChains = new ArrayList<>();
         Chain resultChain = new Chain();
         for (Domino domino : dominoesPool) {
@@ -70,7 +70,7 @@ public class SolveDominoes{
 
     }
 
-    public void generateChains(List<Domino> dominoesPool, Chain resultChain, List<Chain> resultChains) throws CloneNotSupportedException {
+    private static void generateChains(List<Domino> dominoesPool, Chain resultChain, List<Chain> resultChains) {
         for (Domino domino : dominoesPool) {
             if (resultChain.addToChain(domino.clone())) {
                 LinkedList<Domino> dominoesPoolWithOutCurrent = new LinkedList<>(dominoesPool);
@@ -85,7 +85,7 @@ public class SolveDominoes{
             }
         }
     }
-    public boolean isRepeatedChain(List<Chain> childChains, Chain parentChain) {
+    public static boolean isRepeatedChain(List<Chain> childChains, Chain parentChain) {
         if (childChains.size() == 0) {
             return false;
         }

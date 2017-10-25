@@ -14,5 +14,4 @@
   <welcome-file-list>
     <welcome-file>/DispatcherServlet</welcome-file>
   </welcome-file-list>
-  
 </web-app>
