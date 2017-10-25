@@ -49,7 +49,7 @@ public class DominoPool {
     
     public static List<Domino> getDominoesWithFixedSize(int size){
         Collections.shuffle(dominoes);
-        return dominoes.subList(0,size-1);
+        return dominoes.subList(0,size);
     }
     
 }

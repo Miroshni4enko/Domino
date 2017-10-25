@@ -17,15 +17,8 @@ public class DBConnection {
 
     private Properties props = new Properties();
     
-    private DBConnection(){
+    public DBConnection(){
         loadProp();
-    }
-
-    protected static class Singleton {
-        public static final DBConnection _INSTANCE = new DBConnection();
-    }
-    public static DBConnection getDBConnection() {
-        return DBConnection.Singleton._INSTANCE;
     }
     
     public void loadProp() {

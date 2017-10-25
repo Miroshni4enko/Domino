@@ -1,12 +1,12 @@
 package com.vimi.db.util;
 
-import com.vimi.db.dao.ChainOfDominoes;
-import com.vimi.db.dao.SetOfDominoes;
+import com.vimi.db.dao.HistoryObject;
 import com.vimi.exception.DataBaseException;
+import com.vimi.model.Chain;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 
 import static com.vimi.db.util.SQLScripts.*;
 
@@ -14,18 +14,32 @@ import static com.vimi.db.util.SQLScripts.*;
  * Created by vymi1016 on 10/18/2017.
  */
 public class DataAccessService {
-   
-    private DBConnection dbConnection = DBConnection.getDBConnection();
 
-    public void createSets(List<SetOfDominoes> setOfDominoesList) throws DataBaseException {
+    private DBConnection dbConnection;
+
+    private DataAccessService() {
+        this.dbConnection = new DBConnection();
+    }
+
+    protected static class Singleton {
+        public static final DataAccessService _INSTANCE = new DataAccessService();
+    }
+    
+    public static DataAccessService getInstance() {
+        return DataAccessService.Singleton._INSTANCE;
+    }
+    
+    
+
+    public void createSets(int chain_id, List<Chain> sets) throws DataBaseException {
         Connection connection = dbConnection.getConnection();
         ResultSet result = null;
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(CREATE_CHAIN, Statement.RETURN_GENERATED_KEYS);
-            for (SetOfDominoes setOfDominoes: setOfDominoesList) {
-                statement.setInt(1, setOfDominoes.getChain_id());
-                statement.setString(2, setOfDominoes.getSet());
+            statement = connection.prepareStatement(CREATE_SET);
+            for (Chain set: sets) {
+                statement.setInt(1, chain_id);
+                statement.setString(2, set.toString());
             }
             statement.executeBatch();
         } catch (SQLException e) {
@@ -35,17 +49,16 @@ public class DataAccessService {
         }
     }
     
-    public int createChain(ChainOfDominoes chainOfDominoes) throws DataBaseException {
+    public int createChain(String chainOfDominoes, java.util.Date date) throws DataBaseException {
         Connection connection = dbConnection.getConnection();
         ResultSet result = null;
         PreparedStatement statement = null;
         int chain_id;
         try {
-            statement = connection.prepareStatement(CREATE_CHAIN, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, chainOfDominoes.getChain());
-            statement.setDate(2, (Date) chainOfDominoes.getDate());
-            statement.executeUpdate();
-            result = statement.getGeneratedKeys();
+            statement = connection.prepareStatement(CREATE_CHAIN);
+            statement.setDate(1, new java.sql.Date(date.getTime()));
+            statement.setString(2, chainOfDominoes);
+            result = statement.executeQuery();
             result.next();
             chain_id = result.getInt(1);
         } catch (SQLException e) {
@@ -56,37 +69,35 @@ public class DataAccessService {
         return chain_id;
     }
     
-    public List<SetOfDominoes> getSetsByChainId(int chain_id) throws DataBaseException {
+    public List<HistoryObject> getAllHistory() throws DataBaseException {
         Connection connection = dbConnection.getConnection();
         ResultSet result = null;
         PreparedStatement statement = null;
-        
-        List<SetOfDominoes> setOfDominoesList = new ArrayList<>();
+        List<HistoryObject>  historyObjectList = new ArrayList<>();
         try {
-            statement = connection.prepareStatement(GET_ALL_SETS_BY_CHAIN);
-            statement.setInt(1, chain_id);
+            statement = connection.prepareStatement(GET_ALL_HISTORY);
             result = statement.executeQuery();
-            setOfDominoesList.add(getSet(result));
+            historyObjectList.add(getHistoryOfOneSet(result));
         } catch (Exception e) {
             throw new DataBaseException("Exception with data from database", e);
         } finally {
             dbConnection.disconnect(connection, result, statement);
         }
-        return setOfDominoesList;
+        return historyObjectList;
     }
     
-    private SetOfDominoes getSet(ResultSet result) throws DataBaseException {
-        SetOfDominoes setOfDominoes;
+    private HistoryObject getHistoryOfOneSet(ResultSet result) throws DataBaseException {
+        HistoryObject historyObject = null;
         try {
-            int set_id = result.getInt(SET_ID);
-            int chain_id = result.getInt(CHAIN_ID);
+            Date date = result.getDate(DATE);
+            String chain = result.getString(CHAIN);
             String set = result.getString(SET);
-            setOfDominoes = new SetOfDominoes(set_id, chain_id, set);
+            historyObject = new HistoryObject(date, chain, set);
 
         } catch (SQLException e) {
             throw new DataBaseException("Exception with data from result set", e);
         }
-        return setOfDominoes;
+        return historyObject;
     }
     
 }

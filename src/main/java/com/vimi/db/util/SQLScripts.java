@@ -10,9 +10,11 @@ public class SQLScripts {
     static final String DATE ="date";
     static final String CHAIN ="chain";
     
-    static final String CREATE_SET = "INSERT INTO public.sets(chain_id, value) VALUES (?, ?);";
-    static final String CREATE_CHAIN = "INSERT INTO public.chains(value, date) VALUES (?, ?);";
-    static final String GET_ALL_SETS_BY_CHAIN = "SELECT set_id, chain_id, set\n" +
-            "FROM sets \n" +
-            "WHERE chain_id = ?;";
+    static final String CREATE_SET = "INSERT INTO sets(chain_id, set) VALUES (?, ?);";
+    static final String CREATE_CHAIN = "INSERT INTO chains(date, chain) VALUES (?, ?) RETURNING chain_id;";
+    static final String GET_ALL_HISTORY = "SELECT date, chain, set\n" +
+            "FROM chains ch\n" +
+            "INNER JOIN sets s\n" +
+            "ON ch.chain_id = s.chain_id" +
+            "Order By ch.date;";
 }
