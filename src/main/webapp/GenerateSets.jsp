@@ -8,8 +8,8 @@
 </header>
     <div>
           <form name = "generate_sets" method="post" action="DispatcherServlet?action=generateSets">
-            <input type="submit"  value="Get count of domino" >
-            <input type="submit"  value="Get random count of domino" >
+            <input type="submit"  value="Get all sets" >
+            <input type="submit"  value="Get the longest set" >
           </form>
     </div>
     <div>

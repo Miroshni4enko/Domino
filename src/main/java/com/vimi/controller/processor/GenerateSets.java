@@ -29,16 +29,16 @@ public class GenerateSets implements GeneralProcess {
         List<Chain> sets = null;
         if (holderForDominoList != null) {
             List<Domino> dominoList = (List<Domino>) holderForDominoList;
-            /*if (getAllSets == null) {
+            if (getAllSets == null) {
                 sets = Collections.singletonList(Collections.max(SolveDominoes.generateChains(dominoList), new Comparator<Chain>() {
                     @Override
                     public int compare(Chain o1, Chain o2) {
                         return o1.size() > o2.size() ? 1 : 0;
                     }
                 }));
-            } else {*/
+            } else {
                 sets = SolveDominoes.generateChains(dominoList);
-           //}
+           }
             DataAccessService dataAccessService = DataAccessService.getInstance();
             Date date = new Date();
             String chain = dominoList.toString();

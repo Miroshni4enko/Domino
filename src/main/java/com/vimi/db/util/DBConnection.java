@@ -52,7 +52,7 @@ public class DBConnection {
             if(result != null)
                 result.close();
         } catch (SQLException e) {
-          //  LOG.error(e);
+            
         }
     }
 }
