@@ -9,7 +9,7 @@
     </p>
 </header>
 <div >
-    <form name = "buy_form" method="post" action="?action=getChainFromPool">
+    <form name = "get_chain" method="post" action="DispatcherServlet?action=getChainFromPool">
         <label> Input count of domino
             <input type="number" name="count_of_dominoes" value="" />
         </label>
@@ -17,6 +17,10 @@
         <input type="submit"  value="Get random count of domino" >
     </form>
 </div>
-<h2><c:out value="${sessionScope.chain}" /></h2>
+<c:if test="${sessionScope.chain == null}">
+    Cool
+</c:if>
+<%=session.getAttribute("chain")%>
+<c:out value='${sessionScope.chain}'/>
 </body>
 </html>

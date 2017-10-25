@@ -1,9 +1,9 @@
-package com.vimi.controler;
+package com.vimi.controller;
 
 
-import com.vimi.controler.processor.GenerateSets;
-import com.vimi.controler.processor.GetChain;
-import com.vimi.controler.processor.Welcome;
+import com.vimi.controller.processor.GenerateSets;
+import com.vimi.controller.processor.GetChain;
+import com.vimi.controller.processor.Welcome;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;

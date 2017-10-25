@@ -1,4 +1,4 @@
-package com.vimi.controler;
+package com.vimi.controller;
 
 import com.vimi.exception.DataBaseException;
 import org.apache.log4j.Logger;
@@ -13,8 +13,8 @@ import java.util.Map;
 /**
  * Created by vymi on 17.10.2017.
  */
-public class MainServlet extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(MainServlet.class);
+public class DispatcherServlet extends HttpServlet {
+    private static final Logger LOG = Logger.getLogger(DispatcherServlet.class);
     private Map<String, Object> map;
 
     @Override

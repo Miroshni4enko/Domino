@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class DominoPool {
    static private List<Domino>  dominoes;
-    {
+    static {
         dominoes = new LinkedList<>();
         dominoes.add(new Domino(0, 0));
         dominoes.add(new Domino(0, 1));

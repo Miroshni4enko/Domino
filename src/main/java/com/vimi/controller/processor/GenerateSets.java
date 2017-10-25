@@ -1,6 +1,6 @@
-package com.vimi.controler.processor;
+package com.vimi.controller.processor;
 
-import com.vimi.controler.GeneralProcess;
+import com.vimi.controller.GeneralProcess;
 import com.vimi.exception.DataBaseException;
 
 import javax.servlet.http.HttpServletRequest;
