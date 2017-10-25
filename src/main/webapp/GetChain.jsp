@@ -17,6 +17,9 @@
         <input type="submit"  value="Get random count of domino" >
     </form>
 </div>
-<h2><c:out value="${sessionScope.chain}" /></h2>
+
+<c:if test="${sessionScope.chain != null}">
+    <h2><c:out value="${sessionScope.chain}" /></h2>
+</c:if>
 </body>
 </html>
