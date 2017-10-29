@@ -19,7 +19,7 @@ public class InitServer {
         ctx.setResourceBase("src/main/webapp/");
         ctx.setWar("target/DominoArtifactId.war");
 
-        //3. Including the JSTL jars for the webapp.
+        // Including the JSTL jars for the webapp.
         ctx.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",".*/[^/]*jstl.*\\.jar$");
         
         org.eclipse.jetty.webapp.Configuration.ClassList classlist = org.eclipse.jetty.webapp.Configuration.ClassList.setServerDefault(server);

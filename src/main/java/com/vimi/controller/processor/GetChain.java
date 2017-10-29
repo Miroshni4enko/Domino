@@ -5,7 +5,8 @@ import com.vimi.controller.GeneralProcess;
 import com.vimi.exception.DataBaseException;
 import com.vimi.model.Domino;
 import com.vimi.model.DominoPool;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,7 @@ import java.util.List;
 public class GetChain implements GeneralProcess {
     public final static String COUNT_OF_DOMINOES = "count_of_dominoes";
     public final static String CHAIN = "chain";
-    private static final Logger LOG = Logger.getLogger(Commands.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Commands.class);
     
 
     @Override
@@ -31,7 +32,7 @@ public class GetChain implements GeneralProcess {
         }
         
         request.getSession().setAttribute(CHAIN, dominoList);
-        LOG.debug("Get chain from pool :" + dominoList);
+        LOG.debug("Get chain from pool = {}" + dominoList);
         Commands.forward("/GetChain.jsp", request, response);
     }
 }

@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page errorPage="errorPage.jsp"%>
 <html>
 <body>
 <header>

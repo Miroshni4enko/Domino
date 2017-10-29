@@ -3,9 +3,10 @@ package com.vimi.db.util;
 import com.vimi.db.dao.HistoryObject;
 import com.vimi.exception.DataBaseException;
 import com.vimi.model.Chain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
 
 import static com.vimi.db.util.SQLScripts.*;
@@ -14,6 +15,7 @@ import static com.vimi.db.util.SQLScripts.*;
  * Created by vymi1016 on 10/18/2017.
  */
 public class DataAccessService {
+    private static final Logger LOG = LoggerFactory.getLogger(DataAccessService.class);
 
     private DBConnection dbConnection;
 
@@ -31,18 +33,23 @@ public class DataAccessService {
     
     
 
-    public void createSets(int chain_id, List<Chain> sets) throws DataBaseException {
+    public void createSets(int chain_id, List<Chain> sets) throws DataBaseException, SQLException {
         Connection connection = dbConnection.getConnection();
         ResultSet result = null;
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(CREATE_SET);
+            connection.setAutoCommit(false);
             for (Chain set: sets) {
                 statement.setInt(1, chain_id);
                 statement.setString(2, set.toString());
+                statement.addBatch();
             }
+            
             statement.executeBatch();
+            connection.commit();
         } catch (SQLException e) {
+            connection.rollback();
             throw new DataBaseException("Exception for create", e);
         } finally {
             dbConnection.disconnect(connection, result, statement);
@@ -56,7 +63,7 @@ public class DataAccessService {
         int chain_id;
         try {
             statement = connection.prepareStatement(CREATE_CHAIN);
-            statement.setDate(1, new java.sql.Date(date.getTime()));
+            statement.setTimestamp(1, convertToTimestamp(date));
             statement.setString(2, chainOfDominoes);
             result = statement.executeQuery();
             result.next();
@@ -77,7 +84,9 @@ public class DataAccessService {
         try {
             statement = connection.prepareStatement(GET_ALL_HISTORY);
             result = statement.executeQuery();
-            historyObjectList.add(getHistoryOfOneSet(result));
+            while (result.next()) {
+                historyObjectList.add(getHistoryOfOneSet(result));
+            }
         } catch (Exception e) {
             throw new DataBaseException("Exception with data from database", e);
         } finally {
@@ -89,15 +98,18 @@ public class DataAccessService {
     private HistoryObject getHistoryOfOneSet(ResultSet result) throws DataBaseException {
         HistoryObject historyObject = null;
         try {
-            Date date = result.getDate(DATE);
+            Timestamp date = result.getTimestamp(DATE);
             String chain = result.getString(CHAIN);
             String set = result.getString(SET);
             historyObject = new HistoryObject(date, chain, set);
-
         } catch (SQLException e) {
             throw new DataBaseException("Exception with data from result set", e);
         }
         return historyObject;
     }
     
+    public Timestamp convertToTimestamp(java.util.Date date) {
+        java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+        return  timestamp;
+    }
 }

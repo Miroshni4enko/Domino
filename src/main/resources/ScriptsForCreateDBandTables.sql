@@ -1,8 +1,8 @@
--- Database: sendbox
+-- Database: DominoDB
 
--- DROP DATABASE sendbox;
+-- DROP DATABASE DominoDB;
 
-CREATE DATABASE sendbox
+CREATE DATABASE DominoDB
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'

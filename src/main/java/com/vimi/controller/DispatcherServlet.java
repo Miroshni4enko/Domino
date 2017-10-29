@@ -1,20 +1,22 @@
 package com.vimi.controller;
 
 import com.vimi.exception.DataBaseException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
  * Created by vymi on 17.10.2017.
  */
 public class DispatcherServlet extends HttpServlet {
-    private static final Logger LOG = Logger.getLogger(DispatcherServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Commands.class);
     private Map<String, Object> map;
 
     @Override
@@ -49,8 +51,8 @@ public class DispatcherServlet extends HttpServlet {
         if (process != null) {
             try {
                 process.process(request, response);
-            } catch (DataBaseException e) {
-                LOG.error(e);
+            } catch (DataBaseException | SQLException e) {
+                LOG.error("DispatcherServlet error  {}", e.toString());
             }
         }
     }

@@ -1,7 +1,8 @@
 package com.vimi.exception;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -9,7 +10,7 @@ import java.util.Arrays;
  *
  */
 public class DataBaseException extends Exception {
-    private static final Logger LOG = Logger.getLogger(DataBaseException.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DataBaseException.class);
 
     private String message;
 

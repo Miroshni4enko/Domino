@@ -8,10 +8,16 @@ import com.vimi.exception.DataBaseException;
 import com.vimi.model.Chain;
 import com.vimi.model.Domino;
 import com.vimi.model.MenegerDomino;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 import static com.vimi.controller.processor.Welcome.HISTORY_SETS;
 
@@ -21,46 +27,66 @@ import static com.vimi.controller.processor.Welcome.HISTORY_SETS;
 public class GenerateSets implements GeneralProcess {
     public final static String ALL_SETS = "all_sets";
     public final static String GET_SETS = "get_all_sets";
+    private static final Logger LOG = LoggerFactory.getLogger(GenerateSets.class);
+    
+    private List<Domino> dominoList;
+    private DataAccessService dataAccessService = DataAccessService.getInstance();;
 
     @Override
-    public void process(HttpServletRequest request, HttpServletResponse response) throws DataBaseException {
+    public void process(HttpServletRequest request, HttpServletResponse response) throws DataBaseException, SQLException {
         String getAllSets = request.getParameter(GET_SETS);
-        Object holderForDominoList =  request.getSession().getAttribute(GetChain.CHAIN);
+        Object holderForDominoList = request.getSession().getAttribute(GetChain.CHAIN);
         List<Chain> sets = null;
         if (holderForDominoList != null) {
-            List<Domino> dominoList = (List<Domino>) holderForDominoList;
+            dominoList = (List<Domino>) holderForDominoList;
+            
             if (getAllSets == null) {
-                sets = Collections.singletonList(Collections.max(MenegerDomino.generateChains(dominoList), new Comparator<Chain>() {
-                    @Override
-                    public int compare(Chain o1, Chain o2) {
-                        return o1.size() > o2.size() ? 1 : 0;
-                    }
-                }));
+                sets = getLongestSet();
             } else {
-                sets = MenegerDomino.generateChains(dominoList);
-           }
-            DataAccessService dataAccessService = DataAccessService.getInstance();
-            Date date = new Date();
-            String chain = dominoList.toString();
-            int chain_id = dataAccessService.createChain(chain, date);
-            dataAccessService.createSets(chain_id, sets);
-
-            Object holderForHistorySets = request.getSession().getAttribute(HISTORY_SETS);
-            List<HistoryObject> historyObjectList;
-            if (holderForHistorySets != null) {
-                historyObjectList = (List<HistoryObject>) holderForHistorySets;
-            } else {
-                historyObjectList = new ArrayList<>();
+                sets = getAllSets();
             }
+            LOG.debug("sets =  {} ", sets);
+            dataAccessService.createSets(insertChain(), sets);
             
-            for(Chain ch : sets){
-                historyObjectList.add(new HistoryObject(date, chain, ch.toString()));
-            }
-            
-            request.getSession().setAttribute(HISTORY_SETS, historyObjectList);
             request.getSession().setAttribute(ALL_SETS, sets);
+            request.getSession().setAttribute(HISTORY_SETS, getAllHistoryList());
+            
         }
-        
         Commands.forward("/GenerateSets.jsp", request, response);
     }
-}
+    
+    private int insertChain() throws DataBaseException {
+        Date date = new Date();
+        String chain = dominoList.toString();
+        return dataAccessService.createChain(chain, date);
+    }
+    
+    private List<HistoryObject> getAllHistoryList() throws DataBaseException {
+        List<HistoryObject> historyObjectList = dataAccessService.getInstance().getAllHistory();
+        LOG.debug("historyObjectList {} ", historyObjectList);
+        return historyObjectList;
+    }
+    
+    private List<Chain> getLongestSet() {
+        List<Chain> sets = Collections.singletonList(Collections.max(MenegerDomino.generateChains(dominoList), new Comparator<Chain>() {
+                    @Override
+                    public int compare(Chain o1, Chain o2) {
+                        int result;
+                        if (o1.size() > o2.size()) {
+                            result = 1;
+                        }else if(o1.size() < o2.size()){
+                            result = -1;
+                        } else {
+                            result = 0;
+                        }
+                        return result;
+                    }
+                }
+        ));
+        return sets;
+    }
+    
+    private List<Chain> getAllSets() {
+       return MenegerDomino.generateChains(dominoList);
+    }
+} 

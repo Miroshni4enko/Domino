@@ -1,5 +1,8 @@
 package com.vimi.db.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,17 +18,19 @@ public class DBConnection {
     public static final String DB_USERNAME = "DB_USERNAME";
     public static final String DB_PASSWORD = "DB_PASSWORD";
 
+    private static final Logger LOG = LoggerFactory.getLogger(DBConnection.class);
+
     private Properties props = new Properties();
     
     public DBConnection(){
         loadProp();
     }
     
-    public void loadProp() {
+    private void loadProp() {
         try (InputStream inputStream = new FileInputStream("src\\main\\resources\\db.properties")){
             props.load(inputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+           LOG.error("Can't load db.properties {}", e);
         }
     }
     
@@ -37,8 +42,7 @@ public class DBConnection {
                     props.getProperty(DB_USERNAME),
                     props.getProperty(DB_PASSWORD));
         } catch (ClassNotFoundException | SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.error("Can't get connection from  DB {}", e);
         }
         return con;
     }
@@ -52,7 +56,7 @@ public class DBConnection {
             if(result != null)
                 result.close();
         } catch (SQLException e) {
-            
+            LOG.error("Can't close connection {}", e);
         }
     }
 }

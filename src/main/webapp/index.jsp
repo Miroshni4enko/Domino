@@ -1,3 +1,4 @@
+<%@ page errorPage="errorPage.jsp"%>
 <head>
     <meta charset="UTF-8">
     <title>Domino</title>

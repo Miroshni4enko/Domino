@@ -14,7 +14,7 @@ public class SQLScripts {
     static final String CREATE_CHAIN = "INSERT INTO chains(date, chain) VALUES (?, ?) RETURNING chain_id;";
     static final String GET_ALL_HISTORY = "SELECT date, chain, set\n" +
             "FROM chains ch\n" +
-            "INNER JOIN sets s\n" +
-            "ON ch.chain_id = s.chain_id" +
+            "LEFT JOIN sets s\n" +
+            "ON ch.chain_id = s.chain_id\n" +
             "Order By ch.date;";
 }

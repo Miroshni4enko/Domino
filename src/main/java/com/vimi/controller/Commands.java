@@ -4,7 +4,8 @@ package com.vimi.controller;
 import com.vimi.controller.processor.GenerateSets;
 import com.vimi.controller.processor.GetChain;
 import com.vimi.controller.processor.Welcome;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,7 +23,7 @@ public class Commands {
     public static final String GET_CHAIN = "getChainFromPool";
     public static final String GENERATE_SETS = "generateSets";
 
-    private static final Logger LOG = Logger.getLogger(Commands.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Commands.class);
 
     private Map<String, Object> map;
     protected static class Singleton {
@@ -54,9 +55,9 @@ public class Commands {
         try {
             rd.forward(request, response);
         } catch (ServletException e) {
-            LOG.error(e);
+            LOG.error(e.toString());
         } catch (IOException e) {
-            LOG.error(e);
+            LOG.error(e.toString());
         }
     }
 }

@@ -7,6 +7,7 @@ public class Edge
 {
     int u, v;
     Edge prev, next;
+    boolean isUsed;
 
     public Edge(int u, int v)
     {
