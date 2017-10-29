@@ -38,7 +38,6 @@ public class InitServer {
         server.setHandler(ctx);
         server.start();
         server.join();
-
     }
 }
 

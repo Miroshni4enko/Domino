@@ -1,12 +1,16 @@
 package com.vimi.db.util;
 
+import com.atomikos.jdbc.nonxa.AtomikosNonXADataSourceBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 /**
@@ -19,11 +23,12 @@ public class DBConnection {
     public static final String DB_PASSWORD = "DB_PASSWORD";
 
     private static final Logger LOG = LoggerFactory.getLogger(DBConnection.class);
-
+    AtomikosNonXADataSourceBean dataSource = new AtomikosNonXADataSourceBean();
     private Properties props = new Properties();
     
     public DBConnection(){
         loadProp();
+        setupDataSources();
     }
     
     private void loadProp() {
@@ -37,11 +42,8 @@ public class DBConnection {
     public Connection getConnection() {
         Connection con = null;
         try{
-            Class.forName(props.getProperty(DB_DRIVER_CLASS));
-            con = DriverManager.getConnection(props.getProperty(DB_URL),
-                    props.getProperty(DB_USERNAME),
-                    props.getProperty(DB_PASSWORD));
-        } catch (ClassNotFoundException | SQLException e) {
+            con = dataSource.getConnection();
+        } catch (SQLException e) {
             LOG.error("Can't get connection from  DB {}", e);
         }
         return con;
@@ -58,5 +60,13 @@ public class DBConnection {
         } catch (SQLException e) {
             LOG.error("Can't close connection {}", e);
         }
+    }
+
+    public void setupDataSources() {
+        dataSource.setDriverClassName(props.getProperty(DB_DRIVER_CLASS));
+        dataSource.setUrl(props.getProperty(DB_URL));
+        dataSource.setUser(props.getProperty(DB_USERNAME));
+        dataSource.setPassword(DB_PASSWORD);
+        dataSource.setMaxPoolSize(10);
     }
 }
