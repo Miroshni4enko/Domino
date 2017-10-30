@@ -9,6 +9,7 @@ import java.sql.SQLException;
  *
  */
 public interface GeneralProcess {
+
     void process(HttpServletRequest request, HttpServletResponse response) throws DataBaseException, SQLException;
 
 }

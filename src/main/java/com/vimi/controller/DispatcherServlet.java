@@ -16,8 +16,9 @@ import java.util.Map;
  * Created by vymi on 17.10.2017.
  */
 public class DispatcherServlet extends HttpServlet {
-    private static final Logger LOG = LoggerFactory.getLogger(Commands.class);
     private Map<String, Object> map;
+    
+    private static final Logger LOG = LoggerFactory.getLogger(Commands.class);
 
     @Override
     public void init() throws ServletException {

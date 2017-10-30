@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by vymi1016 on 10/18/2017.
  */
-public class MenegerDomino {
+public class DominoService {
     
     public static List<Chain> generateChains(List<Domino> dominoesPool) {
         List<Chain> resultChains = new ArrayList<>();

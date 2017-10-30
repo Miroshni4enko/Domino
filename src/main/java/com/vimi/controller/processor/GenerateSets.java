@@ -7,7 +7,7 @@ import com.vimi.db.util.DataAccessService;
 import com.vimi.exception.DataBaseException;
 import com.vimi.model.Chain;
 import com.vimi.model.Domino;
-import com.vimi.model.MenegerDomino;
+import com.vimi.model.DominoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,13 +48,16 @@ public class GenerateSets implements GeneralProcess {
             } else {
                 sets = getAllSets();
             }
-            LOG.debug("sets = {} ", sets);
             
-            dataAccessService.createSets(insertChain(), sets);
-            request.getSession().setAttribute(ALL_SETS, sets);
+            LOG.debug("sets = {} ", sets);
+            if(sets != null) {
+                dataAccessService.createSets(insertChain(), sets);
+                request.getSession().setAttribute(ALL_SETS, sets);
+            }
+            
             request.getSession().setAttribute(HISTORY_SETS, getAllHistoryList());
         }
-        Commands.forward("/GenerateSets.jsp", request, response);
+        Commands.forward("/generateSets.jsp", request, response);
     }
     
     private int insertChain() throws DataBaseException {
@@ -70,7 +73,7 @@ public class GenerateSets implements GeneralProcess {
     }
     
     private List<Chain> getLongestSet() {
-        List<Chain> sets = Collections.singletonList(Collections.max(MenegerDomino.generateChains(dominoList), new Comparator<Chain>() {
+        List<Chain> sets = Collections.singletonList(Collections.max(DominoService.generateChains(dominoList), new Comparator<Chain>() {
                     @Override
                     public int compare(Chain o1, Chain o2) {
                         int result;
@@ -89,6 +92,6 @@ public class GenerateSets implements GeneralProcess {
     }
     
     private List<Chain> getAllSets() {
-       return MenegerDomino.generateChains(dominoList);
+       return DominoService.generateChains(dominoList);
     }
 } 

@@ -9,8 +9,8 @@
 </header>
     <div>
           <form name = "generate_sets" method="post" action="DispatcherServlet?action=generateSets">
-            <input type="submit" name = "get_set" value="Get all sets" >
-            <input type="submit" name = "get_set" value="Get the longest set" >
+            <input type="submit" name="get_set" value="Get all sets" />
+            <input type="submit" name="get_set" value="Get the longest set" />
           </form>
     </div>
     <div>
@@ -27,8 +27,8 @@
         </c:if>
     </div>
     <div>
-            <table>
-            <caption>History:</caption>
+            <table cellspacing="2" border="1" cellpadding="5">
+            <caption><h1>History:</h1></caption>
                 <tr>
                     <td>Date</td><td>Chain</td><td>Set</td>
                 </tr>

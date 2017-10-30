@@ -12,10 +12,10 @@
 <div >
     <form name = "get_chain" method="post" action="DispatcherServlet?action=getChainFromPool">
         <label> Input count of domino
-            <input type="number" name="count_of_dominoes" value="" />
+            <input type="number" name="amount_of_dominoes" value="" />
         </label>
-        <input type="submit"  value="Get count of domino" >
-        <input type="submit"  value="Get random count of domino" >
+        <input type="submit"  value="Get amount of domino" >
+        <input type="submit"  value="Get random amount of domino" >
     </form>
 </div>
 

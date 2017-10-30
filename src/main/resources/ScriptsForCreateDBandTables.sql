@@ -1,15 +1,29 @@
+-- User: "DominoAdmin"
+-- DROP USER "DominoAdmin";
+
+CREATE USER "DominoAdmin" WITH
+  LOGIN
+  SUPERUSER
+  INHERIT
+  CREATEDB
+  CREATEROLE
+  REPLICATION;
+
+GRANT postgres TO "DominoAdmin" WITH ADMIN OPTION;
+
 -- Database: DominoDB
 
--- DROP DATABASE DominoDB;
+-- DROP DATABASE "DominoDB";
 
-CREATE DATABASE DominoDB
+CREATE DATABASE "DominoDB"
     WITH 
-    OWNER = postgres
+    OWNER = "DominoAdmin"
     ENCODING = 'UTF8'
     LC_COLLATE = 'Ukrainian_Ukraine.1251'
     LC_CTYPE = 'Ukrainian_Ukraine.1251'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
+
 -- Table: public.chains
 
 -- DROP TABLE public.chains;
@@ -17,7 +31,7 @@ CREATE DATABASE DominoDB
 CREATE TABLE public.chains
 (
     chain_id integer NOT NULL DEFAULT nextval('chains_chain_id_seq'::regclass),
-    date date NOT NULL,
+    date timestamp(6) with time zone NOT NULL,
     chain text COLLATE pg_catalog."default",
     CONSTRAINT chains_pkey PRIMARY KEY (chain_id)
 )
@@ -27,8 +41,8 @@ WITH (
 TABLESPACE pg_default;
 
 ALTER TABLE public.chains
-    OWNER to postgres;
-	
+    OWNER to "DominoAdmin";
+    
 -- Table: public.sets
 
 -- DROP TABLE public.sets;
@@ -50,4 +64,4 @@ WITH (
 TABLESPACE pg_default;
 
 ALTER TABLE public.sets
-    OWNER to postgres;
+    OWNER to "DominoAdmin";

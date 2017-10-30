@@ -16,14 +16,14 @@ import java.util.List;
  * Created by Слава on 25.10.2017.
  */
 public class GetChain implements GeneralProcess {
-    public final static String COUNT_OF_DOMINOES = "count_of_dominoes";
+    public final static String AMOUNT_OF_DOMINOES = "amount_of_dominoes";
     public final static String CHAIN = "chain";
     private static final Logger LOG = LoggerFactory.getLogger(Commands.class);
     
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) throws DataBaseException {
-        String holderForCountOfDominoes = request.getParameter(COUNT_OF_DOMINOES);
+        String holderForCountOfDominoes = request.getParameter(AMOUNT_OF_DOMINOES);
         List<Domino> dominoList;
         if (holderForCountOfDominoes == null  || holderForCountOfDominoes.isEmpty()) {
             dominoList = DominoPool.getDominoesWithRandomSize();
@@ -33,6 +33,6 @@ public class GetChain implements GeneralProcess {
         
         request.getSession().setAttribute(CHAIN, dominoList);
         LOG.debug("Get chain from pool = {}" + dominoList);
-        Commands.forward("/GetChain.jsp", request, response);
+        Commands.forward("/getChain.jsp", request, response);
     }
 }

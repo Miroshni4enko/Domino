@@ -7,6 +7,9 @@
   <version>1.0-SNAPSHOT</version>
   <name>DominoArtifactId Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -128,26 +131,71 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>com.github.slavaz</groupId>
-        <artifactId>embedded-postgresql-maven-plugin</artifactId>
+        <groupId>com.github.adrianboimvaser</groupId>
+        <artifactId>postgresql-maven-plugin</artifactId>
+        <version>0.2</version>
         <configuration>
-          <pgServerVersion>9.5</pgServerVersion>
-          <pgServerPort>15432</pgServerPort>
-          <dbName>DominoDB</dbName>
-          <userName>DominoAdmin</userName>
-          <password>Mir()sh1997</password>
+          <pgsqlHome>${project.build.directory}/pgsql</pgsqlHome>
+          <dataDir>${project.build.directory}/data</dataDir>
+          <databaseName>DominoDB</databaseName>
+          <username>DominoAdmin</username>
         </configuration>
         <executions>
           <execution>
-            <id>start-pgsql</id>
-            <!--phase>pre-integration-test</phase-->
+            <id>version-check</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>version</goal>
+            </goals>
+            <configuration>
+              <mandatoryVersionRange>[9.2,)</mandatoryVersionRange>
+            </configuration>
+          </execution>
+          <execution>
+            <id>init-db</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>initdb</goal>
+            </goals>
+            <configuration>
+              <username>postgres</username>
+              <passwordFile>${basedir}/password.txt</passwordFile>
+              <encoding>UTF8</encoding>
+              <locale>en_US</locale>
+            </configuration>
+          </execution>
+          <execution>
+            <id>start-postgresql</id>
+            <phase>pre-integration-test</phase>
             <goals>
               <goal>start</goal>
             </goals>
           </execution>
           <execution>
-            <id>stop-pgsql</id>
-            <!--phase>post-integration-test</phase-->
+            <id>create-db</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>createdb</goal>
+            </goals>
+            <configuration>
+              <username>postgres</username>
+              <databaseName>products</databaseName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>drop-db</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>dropdb</goal>
+            </goals>
+            <configuration>
+              <username>postgres</username>
+              <databaseName>products</databaseName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop-postgresql</id>
+            <phase>post-integration-test</phase>
             <goals>
               <goal>stop</goal>
             </goals>

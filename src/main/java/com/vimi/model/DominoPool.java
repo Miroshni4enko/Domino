@@ -44,11 +44,15 @@ public class DominoPool {
     
     public static List<Domino> getDominoesWithRandomSize(){
         Collections.shuffle(dominoes);
-        return dominoes.subList(0,new Random().nextInt(12));   //dominoes.size()
+        return dominoes.subList(0,new Random().nextInt(12));   
     }
     
     public static List<Domino> getDominoesWithFixedSize(int size){
         Collections.shuffle(dominoes);
+        //TODO if size  more then 12, it will be done, but take lots of time
+        if(size > 12) {
+            size = 12;    
+        }
         return dominoes.subList(0,size);
     }
     

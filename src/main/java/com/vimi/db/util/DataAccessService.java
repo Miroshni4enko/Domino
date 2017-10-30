@@ -88,7 +88,8 @@ public class DataAccessService {
                 historyObjectList.add(getHistoryOfOneSet(result));
             }
         } catch (Exception e) {
-            throw new DataBaseException("Exception with data from database", e);
+            LOG.debug("Most of all db is empty or Exception with data from database", e);
+            return null;
         } finally {
             dbConnection.disconnect(connection, result, statement);
         }

@@ -22,10 +22,10 @@ public class Commands {
     public static final String ACTION_WELCOME = "welcome";
     public static final String GET_CHAIN = "getChainFromPool";
     public static final String GENERATE_SETS = "generateSets";
+    private Map<String, Object> map;
 
     private static final Logger LOG = LoggerFactory.getLogger(Commands.class);
-
-    private Map<String, Object> map;
+    
     protected static class Singleton {
         public static final Commands _INSTANCE = new Commands();
 
