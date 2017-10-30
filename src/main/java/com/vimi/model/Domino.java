@@ -1,7 +1,7 @@
 package com.vimi.model;
 
 /**
- * Created by vymi1016 on 10/18/2017.
+ * Created by vimi on 10/18/2017.
  */
 public class Domino implements Cloneable {
     private  int firstSide;

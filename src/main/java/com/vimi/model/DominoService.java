@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by vymi1016 on 10/18/2017.
+ * Created by vimi on 10/18/2017.
  */
 public class DominoService {
     

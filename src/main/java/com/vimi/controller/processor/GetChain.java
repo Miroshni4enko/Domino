@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Created by Слава on 25.10.2017.
+ * Created by vimi on 25.10.2017.
  */
 public class GetChain implements GeneralProcess {
     public final static String AMOUNT_OF_DOMINOES = "amount_of_dominoes";

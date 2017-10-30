@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by vymi1016 on 10/22/2017.
+ * Created by vimi on 10/22/2017.
  */
 public class DominoPool {
    static private List<Domino>  dominoes;
@@ -41,13 +41,24 @@ public class DominoPool {
         dominoes.add(new Domino(5, 6));
         dominoes.add(new Domino(6, 6));
     }
+
+    private DominoPool(){
+    }
+    protected static class Singleton {
+        public static final DominoPool _INSTANCE = new DominoPool();
+
+    }
     
-    public static List<Domino> getDominoesWithRandomSize(){
+    public static DominoPool getInstance() {
+        return DominoPool.Singleton._INSTANCE;
+    }
+    
+    public List<Domino> getDominoesWithRandomSize(){
         Collections.shuffle(dominoes);
         return dominoes.subList(0,new Random().nextInt(12));   
     }
     
-    public static List<Domino> getDominoesWithFixedSize(int size){
+    public List<Domino> getDominoesWithFixedSize(int size){
         Collections.shuffle(dominoes);
         //TODO if size  more then 12, it will be done, but take lots of time
         if(size > 12) {
@@ -55,5 +66,6 @@ public class DominoPool {
         }
         return dominoes.subList(0,size);
     }
+    
     
 }

@@ -1,7 +1,7 @@
 package org.eclipse.jetty_with_jsp;
 
 /**
- * Created by vymi1016 on 10/25/2017.
+ * Created by vimi on 10/25/2017.
  */
 
 import org.eclipse.jetty.jsp.JettyJspServlet;

@@ -17,7 +17,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 /**
- * Created by vymi1016 on 10/18/2017.
+ * Created by vimi on 10/18/2017.
  */
 public class DBConnection {
     public static final String DB_DRIVER_CLASS = "DB_DRIVER_CLASS";

@@ -12,7 +12,7 @@ import java.util.*;
 import static com.vimi.db.util.SQLScripts.*;
 
 /**
- * Created by vymi1016 on 10/18/2017.
+ * Created by vimi on 10/18/2017.
  */
 public class DataAccessService {
     private static final Logger LOG = LoggerFactory.getLogger(DataAccessService.class);

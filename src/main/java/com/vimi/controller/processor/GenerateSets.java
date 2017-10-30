@@ -22,7 +22,7 @@ import java.util.List;
 import static com.vimi.controller.processor.Welcome.HISTORY_SETS;
 
 /**
- * Created by vymi1016 on 10/24/2017.
+ * Created by vimi on 10/24/2017.
  */
 public class GenerateSets implements GeneralProcess {
     public final static String ALL_SETS = "all_sets";

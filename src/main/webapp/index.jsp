@@ -6,8 +6,8 @@
 <body>
 <header>
         <a href="index.jsp">Main</a>
-        <a href="GetChain.jsp">Get chain</a>
-        <a href="GenerateSets.jsp">Generate sets</a>
+        <a href="getChain.jsp">Get chain</a>
+        <a href="generateSets.jsp">Generate sets</a>
 </header>
 <h1>Welcome!</h1>
 </body>

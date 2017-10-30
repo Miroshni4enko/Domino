@@ -3,7 +3,7 @@ package com.vimi.db.dao;
 import java.util.Date;
 
 /**
- * Created by vymi1016 on 10/25/2017.
+ * Created by vimi on 10/25/2017.
  */
 public class HistoryObject {
     private Date date;

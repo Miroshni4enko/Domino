@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Created by Слава on 17.10.2017.
+ * Created by vimi on 17.10.2017.
  */
 public class Welcome implements GeneralProcess {
     public static final String HISTORY_SETS = "history_sets";
