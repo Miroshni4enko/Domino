@@ -1,3 +1,5 @@
+Domino - https://github.com/Miroshni4enko/Domino
+
 Проект создан по следующим требованиям:
 
 Pеализовать небольшое веб приложение - ДОМИНО
@@ -59,5 +61,8 @@ CTRL+C
 ![image](https://user-images.githubusercontent.com/16481047/32165242-c83a9736-bd6a-11e7-86e1-4121f2d60b83.png)
 
 ##TODO:
+
 #bat и bash скрипты для инициализации и тестового запуска.
+
+#управления БД via MAVEN, плагин уже нашел и добавил
 

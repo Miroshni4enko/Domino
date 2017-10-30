@@ -58,9 +58,9 @@
       <version>1.7.25</version>
     </dependency>
       <dependency>
-          <groupId>com.atomikos</groupId>
-          <artifactId>transactions-jdbc</artifactId>
-          <version>4.0.4</version>
+        <groupId>com.atomikos</groupId>
+        <artifactId>transactions-jdbc</artifactId>
+        <version>4.0.4</version>
       </dependency>
     <dependency>
       <groupId>org.mortbay.jetty</groupId>
