@@ -9,8 +9,8 @@
 </header>
     <div>
           <form name = "generate_sets" method="post" action="DispatcherServlet?action=generateSets">
-            <input type="submit"  value="Get all sets" >
-            <input type="submit"  value="Get the longest set" >
+            <input type="submit" name = "get_set" value="Get all sets" >
+            <input type="submit" name = "get_set" value="Get the longest set" >
           </form>
     </div>
     <div>

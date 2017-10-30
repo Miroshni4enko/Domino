@@ -26,31 +26,33 @@ import static com.vimi.controller.processor.Welcome.HISTORY_SETS;
  */
 public class GenerateSets implements GeneralProcess {
     public final static String ALL_SETS = "all_sets";
-    public final static String GET_SETS = "get_all_sets";
-    private static final Logger LOG = LoggerFactory.getLogger(GenerateSets.class);
+    public final static String GET_SET = "get_set";
+    public final static String GET_THE_LONGEST_SET ="Get the longest set";
     
+    private static final Logger LOG = LoggerFactory.getLogger(GenerateSets.class);
     private List<Domino> dominoList;
     private DataAccessService dataAccessService = DataAccessService.getInstance();;
 
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response) throws DataBaseException, SQLException {
-        String getAllSets = request.getParameter(GET_SETS);
+        String getAllSets = request.getParameter(GET_SET);
         Object holderForDominoList = request.getSession().getAttribute(GetChain.CHAIN);
         List<Chain> sets = null;
         if (holderForDominoList != null) {
             dominoList = (List<Domino>) holderForDominoList;
+
             
-            if (getAllSets == null) {
+            LOG.debug("Get The Longest {}", getAllSets);
+            if (getAllSets != null && getAllSets.equals(GET_THE_LONGEST_SET)) {
                 sets = getLongestSet();
             } else {
                 sets = getAllSets();
             }
-            LOG.debug("sets =  {} ", sets);
-            dataAccessService.createSets(insertChain(), sets);
+            LOG.debug("sets = {} ", sets);
             
+            dataAccessService.createSets(insertChain(), sets);
             request.getSession().setAttribute(ALL_SETS, sets);
             request.getSession().setAttribute(HISTORY_SETS, getAllHistoryList());
-            
         }
         Commands.forward("/GenerateSets.jsp", request, response);
     }
