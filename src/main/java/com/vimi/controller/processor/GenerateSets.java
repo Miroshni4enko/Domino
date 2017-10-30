@@ -94,4 +94,5 @@ public class GenerateSets implements GeneralProcess {
     private List<Chain> getAllSets() {
        return DominoService.generateChains(dominoList);
     }
+    
 } 

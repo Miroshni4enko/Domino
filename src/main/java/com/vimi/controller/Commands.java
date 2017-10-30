@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Created by vimi on 17.10.2017.
  */
 public class Commands {
     public static final String ACTION_WELCOME = "welcome";

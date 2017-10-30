@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class Welcome implements GeneralProcess {
     public static final String HISTORY_SETS = "history_sets";
+    
     public void process(HttpServletRequest request, HttpServletResponse response) throws DataBaseException {
         Object holderForHistorySets = request.getSession().getAttribute(HISTORY_SETS);
         List<HistoryObject> historyObjectList;
@@ -24,4 +25,5 @@ public class Welcome implements GeneralProcess {
         }
         Commands.forward("/index.jsp", request, response);
     }
+    
 }

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 /**
- *
+ * Created by vimi on 17.10.2017.
  */
 public class DataBaseException extends Exception {
     private static final Logger LOG = LoggerFactory.getLogger(DataBaseException.class);

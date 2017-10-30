@@ -67,5 +67,4 @@ public class DominoPool {
         return dominoes.subList(0,size);
     }
     
-    
 }

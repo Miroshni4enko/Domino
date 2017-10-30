@@ -25,6 +25,7 @@ public class Domino implements Cloneable {
     public int getFirstSide()  {
         return flip ? secondSide : firstSide;
     }        
+    
     public int getSecondSide() {
         return flip ? firstSide : secondSide;
     }    

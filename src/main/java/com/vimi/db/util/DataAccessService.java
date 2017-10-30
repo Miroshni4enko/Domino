@@ -31,8 +31,6 @@ public class DataAccessService {
         return DataAccessService.Singleton._INSTANCE;
     }
     
-    
-
     public void createSets(int chain_id, List<Chain> sets) throws DataBaseException, SQLException {
         Connection connection = dbConnection.getConnection();
         ResultSet result = null;

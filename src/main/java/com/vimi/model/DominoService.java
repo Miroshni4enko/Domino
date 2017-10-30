@@ -38,6 +38,7 @@ public class DominoService {
             }
         }
     }
+    
     public static boolean isRepeatedChain(List<Chain> childChains, Chain parentChain) {
         if (childChains.size() == 0) {
             return false;
@@ -49,7 +50,6 @@ public class DominoService {
         }
         return false;
     }
-    
     
     public static String drawChains(List<Chain> chains){
         StringBuilder builder = new StringBuilder();

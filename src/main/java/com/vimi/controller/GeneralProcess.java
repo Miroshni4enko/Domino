@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 /**
- *
+ * Created by vymi on 17.10.2017.
  */
 public interface GeneralProcess {
 
