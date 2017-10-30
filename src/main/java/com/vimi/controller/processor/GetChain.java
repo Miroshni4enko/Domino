@@ -26,9 +26,9 @@ public class GetChain implements GeneralProcess {
         String holderForCountOfDominoes = request.getParameter(AMOUNT_OF_DOMINOES);
         List<Domino> dominoList;
         if (holderForCountOfDominoes == null  || holderForCountOfDominoes.isEmpty()) {
-            dominoList = DominoPool.getDominoesWithRandomSize();
+            dominoList = DominoPool.getInstance().getDominoesWithRandomSize();
         } else {
-            dominoList = DominoPool.getDominoesWithFixedSize(Integer.valueOf(holderForCountOfDominoes));
+            dominoList = DominoPool.getInstance().getDominoesWithFixedSize(Integer.valueOf(holderForCountOfDominoes));
         }
         
         request.getSession().setAttribute(CHAIN, dominoList);
