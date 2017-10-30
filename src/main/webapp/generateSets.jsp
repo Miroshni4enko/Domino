@@ -4,8 +4,8 @@
 <body>
 <header>
     <a href="index.jsp">Main</a>
-    <a href="GetChain.jsp">Get chain</a>
-    <a href="GenerateSets.jsp">Generate sets</a>
+    <a href="getChain.jsp">Get chain</a>
+    <a href="generateSets.jsp">Generate sets</a>
 </header>
     <div>
           <form name = "generate_sets" method="post" action="DispatcherServlet?action=generateSets">
